@@ -34,13 +34,23 @@ public class ConnexionController implements Initializable {
 
     @FXML
     public void bConnexionClick(ActionEvent event) {
-        String truc = tfLogin.getText();
-        String chose = tfMDP.getText();
+        String login = tfLogin.getText();
+        String mdp = tfMDP.getText(); // il faut le hash pour le bug 18
+
+        /*note thomas : String salt = "SalageBasique"; // peut etre ameliorer avec un hash unique a chaque utilisatuer
+        String mdpHashe = hash(mdp, salt);
+        authentificate dois etre changé pour utiliser le mot de passe hasher
+         voir les extensions qui hache tout seul comme BCrypt
+         */
 
         UtilisateurDAO userDAO = new UtilisateurDAO();
-        // TODO
-        Utilisateur user = userDAO.authenticate(truc, chose);
-        showAccueil(user.getLogin());
+        try {
+            Utilisateur user = userDAO.authenticate(login, mdp);
+            showAccueil(user.getLogin());
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError();
+        }
     }
 
     private void showAccueil(String name) {

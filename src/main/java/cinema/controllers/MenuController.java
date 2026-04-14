@@ -28,7 +28,30 @@ public class MenuController {
     public void bAccueilClick(ActionEvent event) {
         Stage StageE = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
         StageE.close();
+        try {
+            // Charger le fichier FXML
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    getClass().getResource("/cinema/views/page_accueil.fxml"));
+            Parent root = fxmlLoader.load();
 
+            // Obtenir le contrôleur de la nouvelle fenetre
+            AccueilController accueilController = fxmlLoader.getController();
+            accueilController.setName(nameUti);
+
+            // Créer une nouvelle fenêtre (Stage)
+            Stage stage = new Stage();
+            stage.setTitle("Liste franchises");
+            stage.setScene(new Scene(root));
+
+            // Configurer la fenêtre en tant que modal
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // Afficher la fenêtre et attendre qu'elle se ferme
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
