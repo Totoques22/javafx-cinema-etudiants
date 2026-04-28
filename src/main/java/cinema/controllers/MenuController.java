@@ -94,11 +94,11 @@ public class MenuController {
     @FXML
     public void bListeCinemaClick(ActionEvent event) {
         Stage stageP = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
-        stageP.close();
+
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(
-                    getClass().getResource("/cinema/views/page_liste_cinemaa.fxml"));
+                    getClass().getResource("/cinema/views/page_liste_cinema.fxml"));
             Parent root = fxmlLoader.load();
 
             ListeCinemaController listeSectionController = fxmlLoader.getController();
@@ -120,15 +120,15 @@ public class MenuController {
     @FXML
     public void bAjouterCinemaClick(ActionEvent event) {
         Stage stageP = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
-        stageP.close();
+
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(
-                    getClass().getResource("/cinema/views/page_ajout_section.fxml"));
+                    getClass().getResource("/cinema/views/page_ajout_cinema.fxml"));
             Parent root = fxmlLoader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("Ajout d'une Section");
+            stage.setTitle("Ajout d'un Cinéma");
             stage.setScene(new Scene(root));
 
             stage.initModality(Modality.APPLICATION_MODAL);

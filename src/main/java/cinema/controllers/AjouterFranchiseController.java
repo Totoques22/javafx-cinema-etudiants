@@ -21,6 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import jdk.jshell.execution.Util;
 
 public class AjouterFranchiseController extends MenuController implements Initializable {
 
@@ -86,17 +87,21 @@ public class AjouterFranchiseController extends MenuController implements Initia
         String x = tfNomFranchise.getText();
         String y = tfSiegeSocial.getText();
 
-        int z = 1;
-        Franchise bloup = new Franchise(0, x, y, z);
+        Utilisateur selectedUser = lvGerantFranchise.getSelectionModel().getSelectedItem();
 
-        FranchiseDAO franchiseDAO = new FranchiseDAO();
-        boolean controle = franchiseDAO.create(bloup);
-        if (controle) {
-            tfNomFranchise.clear();
-            tfSiegeSocial.clear();
-            lvGerantFranchise.getSelectionModel().clearSelection();
+        if (selectedUser != null) {
+            int z = selectedUser.getIdUtilisateur();
+
+            Franchise nouvFranchise = new Franchise( x, y, z);
+
+            FranchiseDAO franchiseDAO = new FranchiseDAO();
+            boolean controle = franchiseDAO.create(nouvFranchise);
+            if (controle) {
+                tfNomFranchise.clear();
+                tfSiegeSocial.clear();
+                lvGerantFranchise.getSelectionModel().clearSelection();
+            }
         }
-
     }
 
     @FXML
