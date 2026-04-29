@@ -18,7 +18,7 @@ public class AccueilController extends MenuController implements Initializable {
     }
 
     public void setBienvenue() {
-        bienvenue.setText("BONJOUR " + nameUti.toUpperCase());
+        bienvenue.setText("BONJOUR " + nameUti.toString());
     }
 
 }
