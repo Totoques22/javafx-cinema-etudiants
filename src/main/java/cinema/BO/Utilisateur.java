@@ -59,7 +59,6 @@ public class Utilisateur {
         this.login = login;
     }
 
-    @Override
     public String toString() {
         return nom + " " + prenom;
     }

@@ -46,15 +46,14 @@ public class ConnexionController implements Initializable {
         UtilisateurDAO userDAO = new UtilisateurDAO();
         try {
             Utilisateur user = userDAO.authenticate(login, mdp);
-            showAccueil(user);
+            showAccueil(user.getLogin());
         } catch (Exception e) {
             e.printStackTrace();
             showError();
         }
     }
 
-    // modifier pour renvoyer un utilisateur au controller de l'accuiel plutot qu'un string
-    private void showAccueil(Utilisateur user) {
+    private void showAccueil(String name) {
         Stage stageP = (Stage) bConnexion.getScene().getWindow();
         // on ferme l'écran
         stageP.close();
@@ -67,7 +66,7 @@ public class ConnexionController implements Initializable {
 
             // Obtenir le contrôleur de la nouvelle fenetre
             AccueilController accueilController = fxmlLoader.getController();
-            accueilController.setUtilisateur(user);
+            accueilController.setName(name);
             accueilController.setBienvenue();
 
             // Créer une nouvelle fenêtre (Stage)

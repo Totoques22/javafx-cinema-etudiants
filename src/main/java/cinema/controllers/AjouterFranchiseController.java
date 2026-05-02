@@ -46,7 +46,6 @@ public class AjouterFranchiseController extends MenuController implements Initia
         List<Utilisateur> utilisateurs = utilisateurDAO.findAll();
 
         ObservableList<Utilisateur> list = FXCollections.observableArrayList(utilisateurs);
-
         return list;
     }
 
@@ -93,7 +92,7 @@ public class AjouterFranchiseController extends MenuController implements Initia
         if (selectedUser != null) {
             int z = selectedUser.getIdUtilisateur();
 
-            Franchise nouvFranchise = new Franchise(0, x, y, z);
+            Franchise nouvFranchise = new Franchise( x, y, z);
 
             FranchiseDAO franchiseDAO = new FranchiseDAO();
             boolean controle = franchiseDAO.create(nouvFranchise);
@@ -102,10 +101,7 @@ public class AjouterFranchiseController extends MenuController implements Initia
                 tfSiegeSocial.clear();
                 lvGerantFranchise.getSelectionModel().clearSelection();
             }
-        } else {
-            System.out.println("Aucun gérant sélectionné !");
         }
-
     }
 
     @FXML
