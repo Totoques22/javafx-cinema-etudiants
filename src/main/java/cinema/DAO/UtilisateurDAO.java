@@ -51,7 +51,7 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     public boolean update(Utilisateur obj) {
         boolean result = false;
         try {
-            String sql = "UPDATE utilisateur SET login=?, mdp=? WHERE id_utilisateur = ?";
+            String sql = "UPDATE Utilisateur SET login=?, mdp=? WHERE id_utilisateur = ?";
             PreparedStatement ps = this.connect.prepareStatement(sql);
             ps.setString(1, obj.getLogin());
             ps.setString(2, obj.getMdp());

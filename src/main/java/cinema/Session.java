@@ -15,7 +15,9 @@ public class Session {
         utilisateurConnecte = utilisateur;
     }
 
+
     public static Utilisateur getUtilisateur() {
+
         return utilisateurConnecte;
     }
 
