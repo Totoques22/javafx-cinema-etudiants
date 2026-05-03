@@ -1,5 +1,7 @@
 package cinema.controllers;
 
+import cinema.BO.Utilisateur;
+import cinema.Session;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,32 +21,28 @@ public class MenuController {
 
     protected String nameUti;
 
+    Utilisateur user = Session.getUtilisateur();
+
     @FXML
     public void bQuitterClick(ActionEvent event) {
+        Session.clear();
         Platform.exit();
     }
 
     @FXML
     public void bAccueilClick(ActionEvent event) {
-        Stage StageE = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
-        StageE.close();
+        Utilisateur user = Session.getUtilisateur();
         try {
+            // Créer une nouvelle fenêtre (Stage)
+            Stage stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
+
             // Charger le fichier FXML
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass().getResource("/cinema/views/page_accueil.fxml"));
             Parent root = fxmlLoader.load();
 
-            // Obtenir le contrôleur de la nouvelle fenetre
-            AccueilController accueilController = fxmlLoader.getController();
-            accueilController.setName(nameUti);
-
-            // Créer une nouvelle fenêtre (Stage)
-            Stage stage = new Stage();
-            stage.setTitle("Liste franchises");
             stage.setScene(new Scene(root));
-
-            // Configurer la fenêtre en tant que modal
-            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Accueil Gestion de franchises");
 
             // Afficher la fenêtre et attendre qu'elle se ferme
             stage.show();
