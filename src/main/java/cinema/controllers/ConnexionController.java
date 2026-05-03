@@ -46,7 +46,13 @@ public class ConnexionController implements Initializable {
         UtilisateurDAO userDAO = new UtilisateurDAO();
         try {
             Utilisateur user = userDAO.authenticate(login, mdp);
-            showAccueil(user);
+
+            if (user != null) {
+                showAccueil(user);
+            } else {
+                showError();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             showError();
