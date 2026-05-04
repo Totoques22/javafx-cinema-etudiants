@@ -53,18 +53,25 @@ public class AjouterFranchiseController extends MenuController implements Initia
 
     @FXML
     public void bRetourClick(ActionEvent event) {
-        Utilisateur user = Session.getUtilisateur();
-        try {
-            // Créer une nouvelle fenêtre (Stage)
-            Stage stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
+        Stage stageP = (Stage) bRetour.getScene().getWindow();
+        stageP.close();
 
-            // Charger le fichier FXML
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(
                     getClass().getResource("/cinema/views/page_accueil.fxml"));
             Parent root = fxmlLoader.load();
 
-            stage.setScene(new Scene(root));
+            AccueilController accueilController = fxmlLoader.getController();
+            accueilController.setUtilisateur(user);
+            accueilController.setBienvenue();
+
+            // Créer une nouvelle fenêtre (Stage)
+            Stage stage = new Stage();
             stage.setTitle("Accueil Gestion de franchises");
+            stage.setScene(new Scene(root));
+
+            // Configurer la fenêtre en tant que modal
+            stage.initModality(Modality.APPLICATION_MODAL);
 
             // Afficher la fenêtre et attendre qu'elle se ferme
             stage.show();
