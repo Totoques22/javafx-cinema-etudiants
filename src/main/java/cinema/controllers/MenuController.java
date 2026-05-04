@@ -41,6 +41,10 @@ public class MenuController {
                     getClass().getResource("/cinema/views/page_accueil.fxml"));
             Parent root = fxmlLoader.load();
 
+            AccueilController accueilController = fxmlLoader.getController();
+            accueilController.setUtilisateur(user);
+            accueilController.setBienvenue();
+
             stage.setScene(new Scene(root));
             stage.setTitle("Accueil Gestion de franchises");
 
@@ -171,12 +175,12 @@ public class MenuController {
 
             // Charger le fichier FXML
             FXMLLoader fxmlLoader = new FXMLLoader(
-                    getClass().getResource("/cinema/views/page_liste_cours.fxml"));
+                    getClass().getResource("/cinema/views/page_liste_salles.fxml"));
             Parent root = fxmlLoader.load();
 
             // Créer une nouvelle fenêtre (Stage)
             Stage stage = new Stage();
-            stage.setTitle("Liste cours");
+            stage.setTitle("Liste salles");
             stage.setScene(new Scene(root));
 
             // Configurer la fenêtre en tant que modal
@@ -203,12 +207,12 @@ public class MenuController {
 
             // Charger le fichier FXML
             FXMLLoader fxmlLoader = new FXMLLoader(
-                    getClass().getResource("/cinema/views/page_ajout_cours.fxml"));
+                    getClass().getResource("/cinema/views/page_ajout_salle.fxml"));
             Parent root = fxmlLoader.load();
 
             // Créer une nouvelle fenêtre (Stage)
             Stage stage = new Stage();
-            stage.setTitle("Ajout d'un cours");
+            stage.setTitle("Ajout d'une salle");
             stage.setScene(new Scene(root));
 
             // Configurer la fenêtre en tant que modal
