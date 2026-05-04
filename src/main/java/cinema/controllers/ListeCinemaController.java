@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import cinema.BO.Cinema;
+import cinema.BO.Franchise;
 import cinema.DAO.CinemaDAO;
 import cinema.DAO.FranchiseDAO;
 import javafx.collections.FXCollections;
@@ -32,7 +33,7 @@ public class ListeCinemaController extends MenuController implements Initializab
     private TableColumn<Cinema, String> tcDenomination, tcFranchise;
 
     @FXML
-    private TableColumn<Cinema, Void> tcModif, tcSupp;
+    private TableColumn<Cinema, Void> tcModif, tcSupp, tcVp;
 
     @FXML
     private Button bRetour;
@@ -41,9 +42,19 @@ public class ListeCinemaController extends MenuController implements Initializab
     public void initialize(URL location, ResourceBundle resources) {
 
         tcDenomination.setCellValueFactory(new PropertyValueFactory<>("denomination"));
-        tcFranchise.setCellValueFactory(new PropertyValueFactory<>("franchise"));
+
+        tcFranchise.setCellValueFactory(cellData -> {
+            Cinema c = cellData.getValue();
+            FranchiseDAO franDao = new FranchiseDAO();
+            Franchise fran = franDao.find(c.getIdFranchise());
+
+            return new javafx.beans.property.SimpleStringProperty(fran.getNomFranchise());
+        });
+
         ObservableList<Cinema> data = getCinema();
         tvCinema.setItems(data);
+        btnModif();
+        btnSupp();
     }
 
     private ObservableList<Cinema> getCinema() {
@@ -64,7 +75,7 @@ public class ListeCinemaController extends MenuController implements Initializab
             Parent root = fxmlLoader.load();
 
             AccueilController accueilController = fxmlLoader.getController();
-            accueilController.setName(nameUti);
+            accueilController.setUtilisateur(user);
             accueilController.setBienvenue();
 
             // Créer une nouvelle fenêtre (Stage)
@@ -123,8 +134,8 @@ public class ListeCinemaController extends MenuController implements Initializab
             {
                 btn.setOnAction(event -> {
                     Cinema cinema = getTableView().getItems().get(getIndex());
-                    FranchiseDAO etudiantDAO = new FranchiseDAO();
-                    if (etudiantDAO.getNbFranchiseByIdGerant(cinema.getIdCinema()) >= 1) {
+                    FranchiseDAO franchiseDAO = new FranchiseDAO();
+                    if (franchiseDAO.getNbFranchiseByIdGerant(cinema.getIdCinema()) >= 1) {
                         try {
                             // Charger le fichier FXML
                             FXMLLoader fxmlLoader = new FXMLLoader(
