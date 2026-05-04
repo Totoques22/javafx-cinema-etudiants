@@ -30,10 +30,10 @@ public class ListeCinemaController extends MenuController implements Initializab
     private TableView<Cinema> tvCinema;
 
     @FXML
-    private TableColumn<Cinema, String> tcDenomination, tcFranchise;
+    private TableColumn<Cinema, String> tcDenomination, tcFranchise, tcAdresse, tcVille;
 
     @FXML
-    private TableColumn<Cinema, Void> tcModif, tcSupp, tcVp;
+    private TableColumn<Cinema, Void> tcModif, tcSupp, tcVs;
 
     @FXML
     private Button bRetour;
@@ -42,6 +42,8 @@ public class ListeCinemaController extends MenuController implements Initializab
     public void initialize(URL location, ResourceBundle resources) {
 
         tcDenomination.setCellValueFactory(new PropertyValueFactory<>("denomination"));
+        tcAdresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+        tcVille.setCellValueFactory(new PropertyValueFactory<>("ville"));
 
         tcFranchise.setCellValueFactory(cellData -> {
             Cinema c = cellData.getValue();
@@ -55,6 +57,7 @@ public class ListeCinemaController extends MenuController implements Initializab
         tvCinema.setItems(data);
         btnModif();
         btnSupp();
+        tcVs();
     }
 
     private ObservableList<Cinema> getCinema() {
@@ -106,6 +109,9 @@ public class ListeCinemaController extends MenuController implements Initializab
                         FXMLLoader fxmlLoader = new FXMLLoader(
                                 getClass().getResource("/cinema/views/page_modif_cinema.fxml"));
                         Parent root = fxmlLoader.load();
+
+                        ModifierCinemaController controller = fxmlLoader.getController();
+                        controller.setAttributes(cinema);
 
                         Stage stage = new Stage();
                         stage.setTitle("Modification cinema");
@@ -171,4 +177,18 @@ public class ListeCinemaController extends MenuController implements Initializab
         });
     }
 
+    //montreras les salles d'un cinema plus tard
+    private void tcVs() {
+        tcVs.setCellFactory(column -> new TableCell<Cinema, Void>() {
+            private Button btn = new Button("Voir salles"); {
+                btn.setOnAction(event -> {});
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+    }
 }

@@ -130,7 +130,7 @@ public class MenuController {
             listeSectionController.setName(nameUti);
 
             Stage stage = new Stage();
-            stage.setTitle("Liste cinéma");
+            stage.setTitle("Liste cinémas");
             stage.setScene(new Scene(root));
 
             stage.initModality(Modality.APPLICATION_MODAL);

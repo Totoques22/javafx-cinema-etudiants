@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<Pane maxHeight="-Infinity"
+      maxWidth="-Infinity"
+      minHeight="-Infinity"
+      minWidth="-Infinity"
+      prefHeight="478.0"
+      prefWidth="729.0"
+      style="-fx-padding: 20;"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="cinema.controllers.ModifierCinemaController">
+
+    <children>
+
+    <Label layoutY="45.0"
+           prefHeight="35.0"
+           prefWidth="729.0"
+           text="MODIFICATION D'UN CINÉMA"
+           textAlignment="CENTER"
+           textFill="#024010">
+
+        <font>
+            <Font name="System Bold" size="24.0"/>
+        </font>
+    </Label>
+
+    <!-- Dénomination -->
+    <HBox layoutY="110.0" spacing="10.0">
+        <children>
+            <Label prefWidth="165.0" text="Dénomination :" />
+            <TextField fx:id="tfDenomination" prefWidth="375.0"/>
+        </children>
+    </HBox>
+
+    <!-- Adresse -->
+    <HBox layoutY="170.0" spacing="10.0">
+        <children>
+            <Label prefWidth="165.0" text="Adresse :" />
+            <TextField fx:id="tfAdresse" prefWidth="375.0"/>
+        </children>
+    </HBox>
+
+    <!-- Ville -->
+    <HBox layoutY="230.0" spacing="10.0">
+        <children>
+            <Label prefWidth="165.0" text="Ville :" />
+            <TextField fx:id="tfVille" prefWidth="375.0"/>
+        </children>
+    </HBox>
+
+    <!-- Franchise -->
+    <HBox layoutY="290.0" spacing="10.0">
+        <children>
+            <Label prefWidth="165.0" text="Franchise :" />
+            <ListView fx:id="lvFranchise" prefWidth="375.0" prefHeight="70.0"/>
+        </children>
+    </HBox>
+
+    <!-- Boutons -->
+    <HBox alignment="CENTER"
+          layoutY="390.0"
+          prefWidth="729.0"
+          spacing="20.0">
+
+        <children>
+            <Button fx:id="bEnregistrer"
+                    text="ENREGISTRER"
+                    onAction="#bEnregistrerClick"/>
+
+            <Button fx:id="bRetour"
+                    text="RETOUR"
+                    onAction="#bRetourClick"/>
+        </children>
+    </HBox>
+
+    </children>
+</Pane>
