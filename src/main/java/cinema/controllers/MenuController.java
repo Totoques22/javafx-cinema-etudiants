@@ -153,6 +153,9 @@ public class MenuController {
                     getClass().getResource("/cinema/views/page_ajout_cinema.fxml"));
             Parent root = fxmlLoader.load();
 
+            AjouterCinemaController ajouterCinemaController = fxmlLoader.getController();
+            ajouterCinemaController.setName(nameUti);
+
             Stage stage = new Stage();
             stage.setTitle("Ajout d'un cinema");
             stage.setScene(new Scene(root));

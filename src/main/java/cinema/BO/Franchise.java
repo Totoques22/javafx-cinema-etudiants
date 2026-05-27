@@ -58,6 +58,6 @@ public class Franchise {
 
     @Override
     public String toString() {
-        return nomFranchise.get();
+        return (nomFranchise.get() + siegeSocial.get()) ;
     }
 }
