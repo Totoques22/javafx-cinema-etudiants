@@ -1,3 +1,7 @@
+-- 0. Activation de l'extension de chiffrage
+-- Temporairement, le temps d'insérer les données d'utilisateurs
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- 1. Insertion des Utilisateurs (Gérants potentiels)
 INSERT INTO
 	utilisateur (nom, prenom, login, mdp)
@@ -6,20 +10,23 @@ VALUES
 		'Dupont',
 		'Jean',
 		'jean.dupont@email.com',
-		'jean'
+		crypt('jean', gen_salt('bf',6))
 	),
 	(
 		'Martin',
 		'Alice',
 		'alice.martin@email.com',
-		'alice'
+	    crypt('alice', gen_salt('bf',6))
 	),
 	(
 		'Bernard',
 		'Lucas',
 		'lucas.bernard@email.com',
-		'lucas'
+		crypt('lucas', gen_salt('bf',6))
 	);
+
+-- 1-5. Désactivation de l'extension de chiffrage
+DROP EXTENSION pgcrypto;
 
 -- 2. Insertion des Franchises
 -- On lie ici les franchises aux utilisateurs créés précédemment

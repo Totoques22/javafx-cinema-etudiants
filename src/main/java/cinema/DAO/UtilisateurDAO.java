@@ -6,19 +6,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import cinema.BO.Utilisateur;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 public class UtilisateurDAO extends DAO<Utilisateur> {
+
+    private static final String salt = BCrypt.gensalt(6);
+    private static final String dummyHash = "$2a$12$dummyvalue69.poof420/bad6gateway7.abcd3fghIjKLMN0PQR5";
 
     @Override
     public boolean create(Utilisateur obj) {
         boolean result = false;
+        String hashPassword = BCrypt.hashpw(obj.getMdp(),salt);
         try {
             String sql = "INSERT INTO utilisateur(login, mdp) VALUES(?,?)";
             PreparedStatement ps = this.connect.prepareStatement(sql);
             ps.setString(1, obj.getLogin());
-            ps.setString(2, obj.getMdp());
+            ps.setString(2, hashPassword);
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
                 result = true;
@@ -114,13 +119,15 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
 
     public Utilisateur authenticate(String login, String password) {
         Utilisateur user = null;
-        try {
-            String sql = "SELECT * FROM utilisateur WHERE login =? AND mdp=?";
-            PreparedStatement ps = this.connect.prepareStatement(sql);
+        String sql = "SELECT * FROM utilisateur WHERE login =?";
+        String passCheck = dummyHash;
+        try (PreparedStatement ps = this.connect.prepareStatement(sql)){
             ps.setString(1, login);
-            ps.setString(2, password);
             ResultSet result = ps.executeQuery();
             if (result.next()) {
+                passCheck = result.getString("mdp");
+            }
+            if(BCrypt.checkpw(password, passCheck)){
                 user = hydrate(result);
             }
         } catch (SQLException e) {
@@ -128,4 +135,5 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         }
         return user;
     }
+
 }
