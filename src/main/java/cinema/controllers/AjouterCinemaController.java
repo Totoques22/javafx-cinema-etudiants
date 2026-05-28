@@ -4,8 +4,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import cinema.BO.Cinema;
 import cinema.BO.Franchise;
 import cinema.BO.Utilisateur;
+import cinema.DAO.CinemaDAO;
 import cinema.DAO.FranchiseDAO;
 import cinema.DAO.UtilisateurDAO;
 import cinema.Session;
@@ -24,29 +26,29 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AjouterFranchiseController extends MenuController implements Initializable {
+public class AjouterCinemaController extends MenuController implements Initializable {
 
     @FXML
-    private TextField tfNomFranchise, tfSiegeSocial;
+    private TextField tfNomCinema, tfAdresseCinema, tfVilleCinema;
     @FXML
     private Button bRetour;
     @FXML
-    private ListView<Utilisateur> lvGerantFranchise;
+    private ListView<Franchise> lvFranchise;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList<Utilisateur> utilisateurs = getUtilisateurList();
+        ObservableList<Franchise> franchises = getFranchiseList();
 
-        lvGerantFranchise.setItems(utilisateurs);
+        lvFranchise.setItems(franchises);
     }
 
-    private ObservableList<Utilisateur> getUtilisateurList() {
+    private ObservableList<Franchise> getFranchiseList() {
 
-        UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
-        List<Utilisateur> utilisateurs = utilisateurDAO.findAll();
+        FranchiseDAO franchiseDAO = new FranchiseDAO();
+        List<Franchise> franchises = franchiseDAO.findAll();
 
-        ObservableList<Utilisateur> list = FXCollections.observableArrayList(utilisateurs);
+        ObservableList<Franchise> list = FXCollections.observableArrayList(franchises);
 
         return list;
     }
@@ -85,22 +87,26 @@ public class AjouterFranchiseController extends MenuController implements Initia
     @FXML
     public void bEnregistrerClick(ActionEvent event) {
 
-        String x = tfNomFranchise.getText();
-        String y = tfSiegeSocial.getText();
+        String x = tfNomCinema.getText();
+        String y = tfAdresseCinema.getText();
+        String w = tfVilleCinema.getText();
 
-        Utilisateur selectedUser = lvGerantFranchise.getSelectionModel().getSelectedItem();
 
-        if (selectedUser != null) {
-            int z = selectedUser.getIdUtilisateur();
+        Franchise selectedFran = lvFranchise.getSelectionModel().getSelectedItem();
 
-            Franchise nouvFranchise = new Franchise(0, x, y, z);
+        if (selectedFran != null) {
+            int z = selectedFran.getIdGerant();
 
-            FranchiseDAO franchiseDAO = new FranchiseDAO();
-            boolean controle = franchiseDAO.create(nouvFranchise);
+            Cinema nouvCinema = new Cinema(0, x, y, w, z);
+
+            CinemaDAO cinemaDAO = new CinemaDAO();
+            boolean controle = cinemaDAO.create(nouvCinema);
             if (controle) {
-                tfNomFranchise.clear();
-                tfSiegeSocial.clear();
-                lvGerantFranchise.getSelectionModel().clearSelection();
+                tfNomCinema.clear();
+                tfAdresseCinema.clear();
+                tfVilleCinema.clear();
+
+                lvFranchise.getSelectionModel().clearSelection();
             }
         } else {
             System.out.println("Aucun gérant sélectionné !");
@@ -110,11 +116,13 @@ public class AjouterFranchiseController extends MenuController implements Initia
 
     @FXML
     public void bEffacerClick(ActionEvent event) {
-        if (tfNomFranchise != null)
-            tfNomFranchise.clear();
-        if (tfSiegeSocial != null)
-            tfSiegeSocial.clear();
-        lvGerantFranchise.getSelectionModel().clearSelection();
+        if (tfNomCinema != null)
+            tfNomCinema.clear();
+        if (tfAdresseCinema != null)
+            tfAdresseCinema.clear();
+        if (tfVilleCinema != null)
+            tfVilleCinema.clear();
+        lvFranchise.getSelectionModel().clearSelection();
     }
 
 }

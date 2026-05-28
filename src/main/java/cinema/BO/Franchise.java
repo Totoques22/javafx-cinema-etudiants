@@ -2,13 +2,17 @@ package cinema.BO;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
+import java.util.ArrayList;
 public class Franchise {
 
     private int idFranchise;
     private SimpleStringProperty nomFranchise = new SimpleStringProperty();
     private SimpleStringProperty siegeSocial = new SimpleStringProperty();
     private int idGerant;
+    private ArrayList<Salle> lesSalles;
+
+    public Franchise() {
+    }
 
     public Franchise(String nomFranchise, String siegeSocial, int idGerant) {
         this.nomFranchise.set(nomFranchise);

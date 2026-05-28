@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import cinema.BO.Cinema;
+import cinema.BO.Franchise;
 import cinema.DAO.CinemaDAO;
 import cinema.DAO.FranchiseDAO;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,10 +31,10 @@ public class ListeCinemaController extends MenuController implements Initializab
     private TableView<Cinema> tvCinema;
 
     @FXML
-    private TableColumn<Cinema, String> tcDenomination, tcFranchise;
+    private TableColumn<Cinema, String> tcDenomination, tcFranchise, tcAdresse, tcVille;
 
     @FXML
-    private TableColumn<Cinema, Void> tcModif, tcSupp;
+    private TableColumn<Cinema, Void> tcModif, tcSupp, tcVs;
 
     @FXML
     private Button bRetour;
@@ -41,9 +43,22 @@ public class ListeCinemaController extends MenuController implements Initializab
     public void initialize(URL location, ResourceBundle resources) {
 
         tcDenomination.setCellValueFactory(new PropertyValueFactory<>("denomination"));
-        tcFranchise.setCellValueFactory(new PropertyValueFactory<>("franchise"));
+        tcAdresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+        tcVille.setCellValueFactory(new PropertyValueFactory<>("ville"));
+
+        tcFranchise.setCellValueFactory(cellData -> {
+            Cinema c = cellData.getValue();
+            FranchiseDAO franDao = new FranchiseDAO();
+            Franchise fran = franDao.find(c.getIdFranchise());
+
+            return new SimpleStringProperty(fran.getNomFranchise());
+    });
+
         ObservableList<Cinema> data = getCinema();
         tvCinema.setItems(data);
+        btnModif();
+        btnSupp();
+        tcVs();
     }
 
     private ObservableList<Cinema> getCinema() {
@@ -64,7 +79,7 @@ public class ListeCinemaController extends MenuController implements Initializab
             Parent root = fxmlLoader.load();
 
             AccueilController accueilController = fxmlLoader.getController();
-            accueilController.setName(nameUti);
+            accueilController.setUtilisateur(user);
             accueilController.setBienvenue();
 
             // Créer une nouvelle fenêtre (Stage)
@@ -96,6 +111,9 @@ public class ListeCinemaController extends MenuController implements Initializab
                                 getClass().getResource("/cinema/views/page_modif_cinema.fxml"));
                         Parent root = fxmlLoader.load();
 
+                        ModifierCinemaController controller = fxmlLoader.getController();
+                        controller.setAttributes(cinema);
+
                         Stage stage = new Stage();
                         stage.setTitle("Modification cinema");
                         stage.setScene(new Scene(root));
@@ -123,8 +141,8 @@ public class ListeCinemaController extends MenuController implements Initializab
             {
                 btn.setOnAction(event -> {
                     Cinema cinema = getTableView().getItems().get(getIndex());
-                    FranchiseDAO etudiantDAO = new FranchiseDAO();
-                    if (etudiantDAO.getNbFranchiseByIdGerant(cinema.getIdCinema()) >= 1) {
+                    FranchiseDAO franchiseDAO = new FranchiseDAO();
+                    if (franchiseDAO.getNbFranchiseByIdGerant(cinema.getIdCinema()) >= 1) {
                         try {
                             // Charger le fichier FXML
                             FXMLLoader fxmlLoader = new FXMLLoader(
@@ -160,4 +178,18 @@ public class ListeCinemaController extends MenuController implements Initializab
         });
     }
 
+    //montrera les salles d'un cinema plus tard
+    private void tcVs() {
+        tcVs.setCellFactory(column -> new TableCell<Cinema, Void>() {
+            private Button btn = new Button("Voir salles"); {
+                btn.setOnAction(event -> {});
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+    }
 }

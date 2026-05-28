@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import cinema.BO.Utilisateur;
 import org.mindrot.jbcrypt.BCrypt;
+import cinema.BO.Utilisateur;
+import cinema.Session;
 
 
 public class UtilisateurDAO extends DAO<Utilisateur> {

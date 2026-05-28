@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import cinema.BO.Utilisateur;
 import cinema.DAO.UtilisateurDAO;
+import cinema.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,14 +41,21 @@ public class ConnexionController implements Initializable {
         UtilisateurDAO userDAO = new UtilisateurDAO();
         try {
             Utilisateur user = userDAO.authenticate(login, mdp);
-            showAccueil(user.getLogin());
+
+            if (user != null) {
+                Session.setUtilisateur(user); //utilise Session pour une connexion globale
+                showAccueil();
+            } else {
+                showError();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             showError();
         }
     }
 
-    private void showAccueil(String name) {
+    private void showAccueil() {
+        Utilisateur user = Session.getUtilisateur();
         Stage stageP = (Stage) bConnexion.getScene().getWindow();
         // on ferme l'écran
         stageP.close();
@@ -60,7 +68,7 @@ public class ConnexionController implements Initializable {
 
             // Obtenir le contrôleur de la nouvelle fenetre
             AccueilController accueilController = fxmlLoader.getController();
-            accueilController.setName(name);
+            accueilController.setUtilisateur(user);
             accueilController.setBienvenue();
 
             // Créer une nouvelle fenêtre (Stage)

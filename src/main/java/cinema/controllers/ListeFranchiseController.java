@@ -101,12 +101,12 @@ public class ListeFranchiseController extends MenuController implements Initiali
             Parent root = fxmlLoader.load();
 
             AccueilController accueilController = fxmlLoader.getController();
-            accueilController.setName(nameUti);
+            accueilController.setUtilisateur(user);
             accueilController.setBienvenue();
 
             // Créer une nouvelle fenêtre (Stage)
             Stage stage = new Stage();
-            stage.setTitle("Liste franchises");
+            stage.setTitle("Gestion des franchises");
             stage.setScene(new Scene(root));
 
             // Configurer la fenêtre en tant que modal
