@@ -52,4 +52,19 @@ public class Cinema {
         this.idFranchise = idFranchise;
     }
 
+    @Override
+    public String toString() {
+        return (getDenomination()) ;
+    }
+
+    public String toLogString() {
+        return "Cinema{" +
+                "idCinema=" + idCinema +
+                ", denomination='" + denomination +
+                ", adresse='" + adresse +
+                ", ville='" + ville +
+                ", idFranchise=" + idFranchise +
+                '}';
+    }
+
 }

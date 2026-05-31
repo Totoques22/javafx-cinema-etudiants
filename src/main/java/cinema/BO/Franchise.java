@@ -60,4 +60,13 @@ public class Franchise {
     public String toString() {
         return (nomFranchise.get() + siegeSocial.get()) ;
     }
+
+    public String toLogString() {
+        return "Franchise{" +
+                "idFranchise=" + idFranchise +
+                ", nomFranchise='" + nomFranchise +
+                ", siegeSocial='" + siegeSocial +
+                ", idGerant='" + idGerant +
+                '}';
+    }
 }

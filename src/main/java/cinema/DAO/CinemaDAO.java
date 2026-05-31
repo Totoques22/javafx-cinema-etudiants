@@ -3,12 +3,12 @@ package cinema.DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import cinema.Session;
+import cinema.service.LogService;
 import cinema.BO.Cinema;
-import cinema.BO.Utilisateur;
 
 public class CinemaDAO extends DAO<Cinema> {
 
@@ -29,12 +29,21 @@ public class CinemaDAO extends DAO<Cinema> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "CREATE",
+                "Cinema",
+                obj.getIdCinema(),
+                "NULL",
+                obj.toLogString()
+        );
         return result;
     }
 
     @Override
     public boolean delete(Cinema obj) {
         boolean result = false;
+        Cinema ancienCinema = this.find(obj.getIdCinema());
         String query = "DELETE FROM cinema WHERE id_cinema = ?;";
 
         try (PreparedStatement preparedStatement = this.connect.prepareStatement(query)) {
@@ -43,12 +52,21 @@ public class CinemaDAO extends DAO<Cinema> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "DELETE",
+                "Cinema",
+                obj.getIdCinema(),
+                ancienCinema.toLogString(),
+                obj.toLogString()
+        );
 
         return result;
     }
 
     @Override
     public boolean update(Cinema obj) {
+        Cinema ancienCinema = this.find(obj.getIdCinema());
         boolean result = false;
         String query = "UPDATE cinema SET denomination = ?, adresse = ?, ville = ?, id_franchise = ? WHERE id_cinema = ?;";
         try {
@@ -62,9 +80,19 @@ public class CinemaDAO extends DAO<Cinema> {
             if (rows > 0) {
                 result = true;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "UPDATE",
+                "Cinema",
+                obj.getIdCinema(),
+                ancienCinema.toLogString(),
+                obj.toLogString()
+        );
+
         return result;
     }
 

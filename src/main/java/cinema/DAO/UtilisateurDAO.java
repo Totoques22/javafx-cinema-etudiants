@@ -7,8 +7,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import cinema.BO.Cinema;
 import cinema.BO.Utilisateur;
 import cinema.Session;
+import cinema.service.LogService;
 
 public class UtilisateurDAO extends DAO<Utilisateur> {
 
@@ -27,12 +29,21 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "CREATE",
+                "Utilisateur",
+                obj.getIdUtilisateur(),
+                "NULL",
+                obj.toLogString()
+        );
         return result;
     }
 
     @Override
     public boolean delete(Utilisateur obj) {
         boolean result = false;
+        Utilisateur ancienUtilisateur = this.find(obj.getIdUtilisateur());
         try {
             String sql = "DELETE FROM utilisateur WHERE id_utilisateur = ?";
             PreparedStatement ps = this.connect.prepareStatement(sql);
@@ -45,12 +56,21 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "DELETE",
+                "Utilisateur",
+                obj.getIdUtilisateur(),
+                ancienUtilisateur.toLogString(),
+                obj.toLogString()
+        );
         return result;
     }
 
     @Override
     public boolean update(Utilisateur obj) {
         boolean result = false;
+        Utilisateur ancienUtilisateur = this.find(obj.getIdUtilisateur());
         try {
             String sql = "UPDATE Utilisateur SET login=?, mdp=? WHERE id_utilisateur = ?";
             PreparedStatement ps = this.connect.prepareStatement(sql);
@@ -64,6 +84,14 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "UPDATE",
+                "Utilisateur",
+                obj.getIdUtilisateur(),
+                ancienUtilisateur.toLogString(),
+                obj.toLogString()
+        );
         return result;
     }
 

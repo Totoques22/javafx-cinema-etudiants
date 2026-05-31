@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cinema.BO.Franchise;
+import cinema.BO.Utilisateur;
+import cinema.Session;
+import cinema.service.LogService;
 
 public class FranchiseDAO extends DAO<Franchise> {
 
@@ -29,6 +32,14 @@ public class FranchiseDAO extends DAO<Franchise> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "CREATE",
+                "Franchise",
+                obj.getIdFranchise(),
+                "NULL",
+                obj.toLogString()
+        );
         return controle;
     }
 
@@ -51,6 +62,7 @@ public class FranchiseDAO extends DAO<Franchise> {
     @Override
     public boolean delete(Franchise obj) {
         boolean controle = false;
+        Franchise ancienneFranchise = this.find(obj.getIdFranchise());
         try {
             String sql = "DELETE FROM franchise WHERE id_franchise = ?;";
             PreparedStatement statement = this.connect.prepareStatement(sql);
@@ -64,12 +76,21 @@ public class FranchiseDAO extends DAO<Franchise> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "DELETE",
+                "Franchise",
+                obj.getIdFranchise(),
+                ancienneFranchise.toLogString(),
+                obj.toLogString()
+        );
         return controle;
     }
 
     @Override
     public boolean update(Franchise obj) {
         boolean controle = false;
+        Franchise ancienneFranchise = this.find(obj.getIdFranchise());
         try {
             String query = "UPDATE franchise SET nom_franchise = ?, siege_social = ?, id_gerant = ? WHERE id_franchise = ?";
             PreparedStatement statement = this.connect.prepareStatement(query);
@@ -86,6 +107,14 @@ public class FranchiseDAO extends DAO<Franchise> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "UPDATE",
+                "Franchise",
+                obj.getIdFranchise(),
+                ancienneFranchise.toLogString(),
+                obj.toLogString()
+        );
         return controle;
     }
 

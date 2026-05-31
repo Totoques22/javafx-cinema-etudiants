@@ -13,7 +13,7 @@ OR REPLACE FUNCTION insert_log_function(
     p_operation VARCHAR,
     p_ancienContenu TEXT,
     p_nouveauContenu TEXT
-) RETURNS void LANGUAGE plpgsql AS $ $ BEGIN
+) RETURNS void LANGUAGE plpgsql AS $$ BEGIN
 INSERT INTO
     log(
         tableName,
@@ -31,7 +31,7 @@ VALUES
 
 END;
 
-$ $;
+$$;
 
 -- SECTION --
 -- INSERT
@@ -107,7 +107,7 @@ RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER cours_create
 AFTER
@@ -127,7 +127,7 @@ RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER cours_update
 AFTER
@@ -147,7 +147,7 @@ RETURN OLD;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER cours_delete
 AFTER
@@ -167,7 +167,7 @@ RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER etudiant_create
 AFTER
@@ -187,7 +187,7 @@ RETURN NEW;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER etudiant_update
 AFTER
@@ -207,7 +207,7 @@ RETURN OLD;
 
 END;
 
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER etudiant_delete
 AFTER

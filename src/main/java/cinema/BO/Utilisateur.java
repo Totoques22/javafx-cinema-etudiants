@@ -63,4 +63,14 @@ public class Utilisateur {
     public String toString() {
         return nom + " " + prenom;
     }
+
+    public String toLogString() {
+        return "Utilisateur{" +
+                "idUtilisateur=" + idUtilisateur +
+                ", nom='" + nom +
+                ", prenom='" + prenom +
+                ", mdp='" + mdp +
+                ", login=" + login +
+                '}';
+    }
 }
