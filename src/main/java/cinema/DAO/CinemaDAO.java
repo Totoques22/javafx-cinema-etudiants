@@ -5,10 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.sql.Statement;
 import cinema.Session;
 import cinema.service.LogService;
 import cinema.BO.Cinema;
+import cinema.BO.Utilisateur;
 
 public class CinemaDAO extends DAO<Cinema> {
 

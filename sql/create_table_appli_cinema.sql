@@ -3,7 +3,7 @@ CREATE TABLE utilisateur(
    nom VARCHAR(100) NOT NULL,
    prenom VARCHAR(100),
    login VARCHAR(50) NOT NULL,
-   mdp VARCHAR(255) NOT NULL,
+   mdp text NOT NULL,
    CONSTRAINT utilisateur_PK PRIMARY KEY(id_utilisateur)
 );
 

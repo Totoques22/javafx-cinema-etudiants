@@ -46,6 +46,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     // BDD
     implementation("org.postgresql:postgresql:42.7.4")
+    // Source: https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+    implementation("org.mindrot:jbcrypt:0.4")
 }
 
 
