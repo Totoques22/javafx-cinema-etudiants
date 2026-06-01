@@ -106,7 +106,7 @@ public class ListeFranchiseController extends MenuController implements Initiali
 
             // Créer une nouvelle fenêtre (Stage)
             Stage stage = new Stage();
-            stage.setTitle("Gestion des franchises");
+            stage.setTitle("Accueil Gestion de franchises");
             stage.setScene(new Scene(root));
 
             // Configurer la fenêtre en tant que modal

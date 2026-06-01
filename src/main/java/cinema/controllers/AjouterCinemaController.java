@@ -95,7 +95,7 @@ public class AjouterCinemaController extends MenuController implements Initializ
         Franchise selectedFran = lvFranchise.getSelectionModel().getSelectedItem();
 
         if (selectedFran != null) {
-            int z = selectedFran.getIdGerant();
+            int z = selectedFran.getIdFranchise();
 
             Cinema nouvCinema = new Cinema(0, x, y, w, z);
 

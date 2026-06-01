@@ -35,9 +35,7 @@ public class AjouterFranchiseController extends MenuController implements Initia
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         ObservableList<Utilisateur> utilisateurs = getUtilisateurList();
-
         lvGerantFranchise.setItems(utilisateurs);
     }
 
@@ -93,7 +91,7 @@ public class AjouterFranchiseController extends MenuController implements Initia
         if (selectedUser != null) {
             int z = selectedUser.getIdUtilisateur();
 
-            Franchise nouvFranchise = new Franchise(0, x, y, z);
+            Franchise nouvFranchise = new Franchise(x, y, z);
 
             FranchiseDAO franchiseDAO = new FranchiseDAO();
             boolean controle = franchiseDAO.create(nouvFranchise);

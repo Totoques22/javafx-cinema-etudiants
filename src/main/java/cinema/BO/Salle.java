@@ -5,28 +5,28 @@ import javafx.beans.property.SimpleStringProperty;
 public class Salle {
 
     private int idSalle;
-    private int numero;
+    private int numeroSalle;
     private SimpleStringProperty description = new SimpleStringProperty();
     private int nbPlaces;
     private int idCinema;
 
-    public Salle (int idSalle, int num, String desc, int nbPlaces, int idCine) {
+    public Salle (int idSalle, int numSal, String desc, int nbPlaces, int idCine) {
         this.idSalle = idSalle;
-        this.numero = num;
-        this.description.set(desc);
-        this.nbPlaces = nbPlaces;
         this.idCinema = idCine;
-    }
-
-    public Salle (int idCine, int num, String desc, int nbPlaces) {
-        this.idCinema = idCine;
-        this.numero = num;
+        this.numeroSalle = numSal;
         this.description.set(desc);
         this.nbPlaces = nbPlaces;
     }
 
-    public Salle (int num, String desc, int nbPlaces) {
-        this.numero = num;
+    public Salle (int idCine, int numSal, String desc, int nbPlaces) {
+        this.idCinema = idCine;
+        this.numeroSalle = numSal;
+        this.description.set(desc);
+        this.nbPlaces = nbPlaces;
+    }
+
+    public Salle (int idCine, String desc,  int nbPlaces) {
+        this.idCinema = idCine;
         this.description.set(desc);
         this.nbPlaces = nbPlaces;
     }
@@ -39,8 +39,8 @@ public class Salle {
         this.nbPlaces = nbPlaces;
     }
 
-    public void setNumSal(int num) {
-        this.numero = num;
+    public void setNumSal(int numSal) {
+        this.numeroSalle = numSal;
     }
 
     public int getIdSal() {
@@ -52,7 +52,7 @@ public class Salle {
     }
 
     public int getNumSal() {
-        return numero;
+        return numeroSalle;
     }
 
     public void setDesc(String desc) {

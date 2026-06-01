@@ -119,7 +119,7 @@ public class SalleDAO extends DAO<Salle> {
         String sql = "SELECT * FROM salle WHERE id_cinema = ?";
         try(PreparedStatement stmt = this.connect.prepareStatement(sql)) {
             stmt.setInt(1, idCinema);
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 maSalle = hydrate(rs);
                 mesSalles.add(maSalle);
@@ -128,6 +128,36 @@ public class SalleDAO extends DAO<Salle> {
             e.printStackTrace();
         }
         return mesSalles;
+    }
+
+    public int findSalCount(int idCinema) {
+        String sql = "SELECT COUNT(id_salle) as nb FROM salle WHERE id_cinema = ?";
+        int res = 0;
+        try(PreparedStatement stmt = this.connect.prepareStatement(sql)) {
+            stmt.setInt(1, idCinema);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                res = rs.getInt(1);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public List<Integer> findAllSalNum(int idCinema) {
+        String sql = "SELECT numero FROM salle WHERE id_cinema = ?";
+        List<Integer> res = new ArrayList<>(List.of());
+        try(PreparedStatement stmt = this.connect.prepareStatement(sql)) {
+            stmt.setInt(1, idCinema);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                res.add(rs.getInt(1));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res;
     }
 
     private Salle hydrate(ResultSet rs) throws SQLException {

@@ -6,24 +6,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import org.mindrot.jbcrypt.BCrypt;
+
+import cinema.BO.Cinema;
 import cinema.BO.Utilisateur;
 import cinema.Session;
-
+import cinema.service.LogService;
 
 public class UtilisateurDAO extends DAO<Utilisateur> {
-
-    private static final String salt = BCrypt.gensalt(6);
-    private static final String dummyHash = "$2a$12$dummyvalue69.poof420/bad6gateway7.abcd3fghIjKLMN0PQR5";
 
     @Override
     public boolean create(Utilisateur obj) {
         boolean result = false;
-        String hashPassword = BCrypt.hashpw(obj.getMdp(),salt);
-        String sql = "INSERT INTO utilisateur(login, mdp) VALUES(?,?)";
-        try(PreparedStatement ps = this.connect.prepareStatement(sql)) {
+        try {
+            String sql = "INSERT INTO utilisateur(login, mdp) VALUES(?,?)";
+            PreparedStatement ps = this.connect.prepareStatement(sql);
             ps.setString(1, obj.getLogin());
-            ps.setString(2, hashPassword);
+            ps.setString(2, obj.getMdp());
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
                 result = true;
@@ -31,14 +29,24 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "CREATE",
+                "Utilisateur",
+                obj.getIdUtilisateur(),
+                "NULL",
+                obj.toLogString()
+        );
         return result;
     }
 
     @Override
     public boolean delete(Utilisateur obj) {
         boolean result = false;
-        String sql = "DELETE FROM utilisateur WHERE id_utilisateur = ?";
-        try(PreparedStatement ps = this.connect.prepareStatement(sql)){
+        Utilisateur ancienUtilisateur = this.find(obj.getIdUtilisateur());
+        try {
+            String sql = "DELETE FROM utilisateur WHERE id_utilisateur = ?";
+            PreparedStatement ps = this.connect.prepareStatement(sql);
             ps.setInt(1, obj.getIdUtilisateur());
 
             int rowsDeleted = ps.executeUpdate();
@@ -48,14 +56,24 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "DELETE",
+                "Utilisateur",
+                obj.getIdUtilisateur(),
+                ancienUtilisateur.toLogString(),
+                obj.toLogString()
+        );
         return result;
     }
 
     @Override
     public boolean update(Utilisateur obj) {
         boolean result = false;
-        String sql = "UPDATE utilisateur SET login=?, mdp=? WHERE id_utilisateur = ?";
-        try(PreparedStatement ps = this.connect.prepareStatement(sql)) {
+        Utilisateur ancienUtilisateur = this.find(obj.getIdUtilisateur());
+        try {
+            String sql = "UPDATE Utilisateur SET login=?, mdp=? WHERE id_utilisateur = ?";
+            PreparedStatement ps = this.connect.prepareStatement(sql);
             ps.setString(1, obj.getLogin());
             ps.setString(2, obj.getMdp());
             ps.setInt(3, obj.getIdUtilisateur());
@@ -66,6 +84,14 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        LogService.log(
+                Session.getUtilisateur().getIdUtilisateur(),
+                "UPDATE",
+                "Utilisateur",
+                obj.getIdUtilisateur(),
+                ancienUtilisateur.toLogString(),
+                obj.toLogString()
+        );
         return result;
     }
 
@@ -81,8 +107,9 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     public List<Utilisateur> findAll() {
         List<Utilisateur> mesUtilisateurs = new ArrayList<>();
         Utilisateur utilisateur;
-        String sql = "SELECT * FROM utilisateur";
-        try(Statement statement = this.connect.createStatement()) {
+        try {
+            String sql = "SELECT * FROM utilisateur";
+            Statement statement = this.connect.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 utilisateur = hydrate(rs);
@@ -97,8 +124,9 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     @Override
     public Utilisateur find(int idUtilisateur) {
         Utilisateur user;
-        String sql = "SELECT * FROM utilisateur WHERE id_utilisateur = ?";
-        try (PreparedStatement ps = this.connect.prepareStatement(sql)) {
+        try {
+            String sql = "SELECT * FROM utilisateur WHERE id_utilisateur = ?";
+            PreparedStatement ps = this.connect.prepareStatement(sql);
             ps.setInt(1, idUtilisateur);
             ResultSet result = ps.executeQuery();
             if (result.next()) {
@@ -115,15 +143,13 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
 
     public Utilisateur authenticate(String login, String password) {
         Utilisateur user = null;
-        String sql = "SELECT * FROM utilisateur WHERE login =?";
-        String passCheck = dummyHash;
-        try (PreparedStatement ps = this.connect.prepareStatement(sql)){
+        try {
+            String sql = "SELECT * FROM utilisateur WHERE login =? AND mdp=?";
+            PreparedStatement ps = Session.getConnection().prepareStatement(sql);
             ps.setString(1, login);
+            ps.setString(2, password);
             ResultSet result = ps.executeQuery();
             if (result.next()) {
-                passCheck = result.getString("mdp");
-            }
-            if(BCrypt.checkpw(password, passCheck)){
                 user = hydrate(result);
             }
         } catch (SQLException e) {
@@ -131,5 +157,4 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
         }
         return user;
     }
-
 }
