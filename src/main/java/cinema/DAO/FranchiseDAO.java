@@ -92,13 +92,12 @@ public class FranchiseDAO extends DAO<Franchise> {
     @Override
     public Franchise find(int id) {
         Franchise franchise = null;
-        String query = "SELECT * FROM franchise WHERE id_franchise = ?;";
-        try {
-            PreparedStatement ps = this.connect.prepareStatement(query);
+        String query = "SELECT * FROM franchise WHERE id_franchise = ?";
+        try(PreparedStatement ps = this.connect.prepareStatement(query)) {
             ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()) {
-                franchise = hydrate(resultSet);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                franchise = hydrate(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,16 +109,13 @@ public class FranchiseDAO extends DAO<Franchise> {
     public List<Franchise> findAll() {
         List<Franchise> mesFranchises = new ArrayList<>();
         Franchise franchise;
-
-        try {
-            String b = "SELECT * FROM franchise ORDER BY id_franchise";
-            Statement ps = this.connect.createStatement();
-            ResultSet rs = ps.executeQuery(b);
+        String sql = "SELECT * FROM franchise ORDER BY id_franchise";
+        try (PreparedStatement ps = this.connect.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 franchise = hydrate(rs);
                 mesFranchises.add(franchise);
             }
-
         } catch (SQLException e) {
             return null;
         }

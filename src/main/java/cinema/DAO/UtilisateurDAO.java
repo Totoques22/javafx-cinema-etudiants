@@ -20,9 +20,8 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     public boolean create(Utilisateur obj) {
         boolean result = false;
         String hashPassword = BCrypt.hashpw(obj.getMdp(),salt);
-        try {
-            String sql = "INSERT INTO utilisateur(login, mdp) VALUES(?,?)";
-            PreparedStatement ps = this.connect.prepareStatement(sql);
+        String sql = "INSERT INTO utilisateur(login, mdp) VALUES(?,?)";
+        try(PreparedStatement ps = this.connect.prepareStatement(sql)) {
             ps.setString(1, obj.getLogin());
             ps.setString(2, hashPassword);
             int rowsInserted = ps.executeUpdate();
@@ -38,9 +37,8 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     @Override
     public boolean delete(Utilisateur obj) {
         boolean result = false;
-        try {
-            String sql = "DELETE FROM utilisateur WHERE id_utilisateur = ?";
-            PreparedStatement ps = this.connect.prepareStatement(sql);
+        String sql = "DELETE FROM utilisateur WHERE id_utilisateur = ?";
+        try(PreparedStatement ps = this.connect.prepareStatement(sql)){
             ps.setInt(1, obj.getIdUtilisateur());
 
             int rowsDeleted = ps.executeUpdate();
@@ -56,9 +54,8 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     @Override
     public boolean update(Utilisateur obj) {
         boolean result = false;
-        try {
-            String sql = "UPDATE utilisateur SET login=?, mdp=? WHERE id_utilisateur = ?";
-            PreparedStatement ps = this.connect.prepareStatement(sql);
+        String sql = "UPDATE utilisateur SET login=?, mdp=? WHERE id_utilisateur = ?";
+        try(PreparedStatement ps = this.connect.prepareStatement(sql)) {
             ps.setString(1, obj.getLogin());
             ps.setString(2, obj.getMdp());
             ps.setInt(3, obj.getIdUtilisateur());
@@ -84,9 +81,8 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     public List<Utilisateur> findAll() {
         List<Utilisateur> mesUtilisateurs = new ArrayList<>();
         Utilisateur utilisateur;
-        try {
-            String sql = "SELECT * FROM utilisateur";
-            Statement statement = this.connect.createStatement();
+        String sql = "SELECT * FROM utilisateur";
+        try(Statement statement = this.connect.createStatement()) {
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 utilisateur = hydrate(rs);
@@ -101,9 +97,8 @@ public class UtilisateurDAO extends DAO<Utilisateur> {
     @Override
     public Utilisateur find(int idUtilisateur) {
         Utilisateur user;
-        try {
-            String sql = "SELECT * FROM utilisateur WHERE id_utilisateur = ?";
-            PreparedStatement ps = this.connect.prepareStatement(sql);
+        String sql = "SELECT * FROM utilisateur WHERE id_utilisateur = ?";
+        try (PreparedStatement ps = this.connect.prepareStatement(sql)) {
             ps.setInt(1, idUtilisateur);
             ResultSet result = ps.executeQuery();
             if (result.next()) {

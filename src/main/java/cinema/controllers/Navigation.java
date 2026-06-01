@@ -34,10 +34,9 @@ public class Navigation {
                 Parent root = FXMLLoader.load(Navigation.class.getResource(fxmlPath));
                 primaryStage.setScene(new Scene(root));
 
-                // ✅ Réassigner l’icône
                 primaryStage.getIcons().clear();
                 primaryStage.getIcons()
-                        .add(new Image(Navigation.class.getResourceAsStream("/cinema/images/cinema_logo.png")));
+                        .add(new Image(Navigation.class.getResourceAsStream("/cinema/images/cinema_logo_blue.png")));
 
                 primaryStage.show();
             }
@@ -58,9 +57,8 @@ public class Navigation {
             newStage.setScene(new Scene(root));
             newStage.setResizable(false);
 
-            // ✅ Ajouter l’icône à la nouvelle fenêtre
             newStage.getIcons()
-                    .add(new Image(Navigation.class.getResourceAsStream("/cinema/images/cinema_logo.png")));
+                    .add(new Image(Navigation.class.getResourceAsStream("/cinema/images/cinema_logo_blue.png")));
 
             newStage.show();
 
