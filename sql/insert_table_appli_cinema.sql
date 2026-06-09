@@ -75,3 +75,9 @@ VALUES
 	-- Salles pour Le Grand Écran (ID 3)
 	(6, 'Salle IMAX', 450, 3),
 	(7, 'Salle Horizon', 120, 3);
+
+INSERT INTO
+    salarie(nom, prenom, id_cinema)
+VALUES
+('Dujardin', 'Christophe', 1),
+('Ciboulette', 'Anne-Marie', 2);

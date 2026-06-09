@@ -41,6 +41,14 @@ CREATE TABLE salle (
    CONSTRAINT fk_cinema FOREIGN KEY(id_cinema) REFERENCES cinema(id_cinema) ON DELETE CASCADE
 );
 
+CREATE TABLE salarie (
+    id_salarie SERIAL PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    id_cinema INTEGER NOT NULL,
+    CONSTRAINT fk_salarie_cinema FOREIGN KEY(id_cinema) REFERENCES cinema(id_cinema) ON DELETE CASCADE
+);
+
 -- Index pour optimiser les recherches
 CREATE INDEX idx_cinema_franchise ON cinema(id_franchise);
 
