@@ -8,16 +8,17 @@ public class Salle {
     private int numero;
     private SimpleStringProperty description = new SimpleStringProperty();
     private int nbPlaces;
-    private Cinema LeCine;
+    private int idCinema;
 
-    public Salle (int idSalle, int num, String desc, int nbPlaces) {
+    public Salle(int idSalle, int num, String desc, int nbPlaces, int idCinema) {
         this.idSalle = idSalle;
         this.numero = num;
         this.description.set(desc);
         this.nbPlaces = nbPlaces;
+        this.idCinema = idCinema;
     }
 
-    public Salle (int num, String desc, int nbPlaces) {
+    public Salle(int num, String desc, int nbPlaces) {
         this.numero = num;
         this.description.set(desc);
         this.nbPlaces = nbPlaces;
@@ -51,17 +52,29 @@ public class Salle {
         this.description.set(desc);
     }
 
-    public String getDesc(){
+    public String getDesc() {
         return description.getValue();
     }
 
-    public Cinema getLeCine(){
-        return LeCine;
+    public int getIdCine() {
+        return idCinema;
+    }
+
+    public void setIdCinema(int idCine) {
+        this.idCinema = idCine;
     }
 
     public String toString() {
-        return "Salle " + getNumSal() + " du Cinéma " + getLeCine().getDenomination() + " : \n" +
-                "Description = " + getDesc() + "\n" +
-                "Nombre de Places = " + getPlaces();
+        return "Salle " + getNumSal() + " du Cinéma [" + idCinema + "] : \n";
+    }
+
+    public String toLogString() {
+        return "Salle{" +
+                "idSalle=" + idSalle +
+                ", numero= " + numero +
+                ", description='" + description +
+                "', nbPlaces =" + nbPlaces +
+                ", idCinema =" + idCinema +
+                "}";
     }
 }
