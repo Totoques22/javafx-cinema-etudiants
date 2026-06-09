@@ -10,6 +10,13 @@ public class Salarie {
     public Salarie() {
     }
 
+    public Salarie(int idSal, String nom, String prenom, int idCinema) {
+        this.idSalarie = idSal;
+        this.nomSalarie = nom;
+        this.prenomSalarie = prenom;
+        this.idCinema = idCinema;
+    }
+
     public Salarie(String nomSal, String prenomSal, int idCinema) {
         this.nomSalarie = nomSal;
         this.prenomSalarie = prenomSal;
